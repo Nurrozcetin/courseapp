@@ -1,8 +1,14 @@
 {% extends "layout.html" %}
 
+{% load static %}
+
 {% block title %}
     Index
 {% endblock title %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'courses/css/style.css' %}}">
+{% endblock css_files %}
 
 
 {% block content %}
@@ -10,11 +16,14 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col-3 ">
-                <!--menu-->
                 {% include "courses/partials/_categories.html" %}
             </div>
             <div class="col-9 ">
-                <!--content-->
+                {% for course in courses%}
+
+                    {% include "courses/partials/_courses.html" %}
+
+                {% endfor%}
             </div>
         </div>
     </div>

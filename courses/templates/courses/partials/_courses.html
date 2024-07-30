@@ -1,0 +1,22 @@
+{% load static %}
+<div class="card mb-3">
+    <div class="row">
+        <div class="col-4">
+            <img class="img-fluid rounded-start" src="{% static 'courses/img/'|add:course.imageUrl %}" alt="{{ course.title }}">
+        </div>
+        <div class="col-8">
+            <div class="card-body">
+                <h5 class="card-title"> {{ course.title }} </h5>
+                <p class="card-text">{{ course.desc|truncatechars:15 }}</p>
+                <span>
+                    {% if course.isUpdated %}
+                        <span class="badge bg-success">Updated</span>
+                    {% else %}
+                    <span class="badge bg-warning">Waiting For Updated</span>
+                    {% endif %}
+                </span>
+                <p>{{ course.date|date:'SHORT_DATE_FORMAT' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
