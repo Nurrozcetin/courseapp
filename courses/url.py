@@ -5,8 +5,6 @@ urlpatterns = [
     path('', views.index ),
     path('list/', views.courses ),
     path('<course_name>', views.details),
-    path('programming/', views.programming),
-    path('apps/', views.apps),
-    path('category/<int:category_id>', views.getCoursesByCategoryId),
-    path('category/<str:category_name>', views.getCoursesByCategoryName),
+    path('course/<int:category_id>', views.getCoursesByCategoryId),
+    path('course/<str:category_name>', views.getCoursesByCategory),
 ]

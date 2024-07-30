@@ -9,7 +9,7 @@ data = {
 }
 
 def index(request):
-    return render(request, 'pages/index.html')
+    return render(request, 'courses/index.html')
 
 def courses(request):
     list_items = ""
@@ -26,13 +26,8 @@ def courses(request):
 def details(request, course_name):
     return HttpResponse(f'{course_name} detail course')
 
-def programming(request):
-    return HttpResponse('programming')
 
-def apps(request):
-    return HttpResponse('apps')
-
-def getCoursesByCategoryName(request, category_name):
+def getCoursesByCategory(request, category_name):
     try:
         category_text = data[category_name]
         return HttpResponse(category_text)
@@ -41,8 +36,6 @@ def getCoursesByCategoryName(request, category_name):
 
 def getCoursesByCategoryId(request, category_id):
     category_lists = list(data.keys())
-    redirect_text = category_lists[category_id - 1]
-
     if(category_id >= len(category_lists)):
         return HttpResponseNotFound("wrong category id ")
     
