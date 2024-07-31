@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'courses/css/style.css' %}}">
+{% endblock css_files %}
+
+{% block title %}
+   {{ course.title }}
+{% endblock title %}
+
+{% block content %}
+    <i class="fa-solid fa-bug"></i>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-4 ">
+                <img class="img-fluid rounded" src="{% static 'courses/img/'|add:course.imageUrl %}" alt="{{ course.title }}">
+            </div>
+            <div class="col-8 ">
+                <h1 class="h3"> {{ course.title }}</h1>
+                <p>
+                    {{ course.desc}}
+                </p>
+                <p>
+                    {{ course.date}}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
