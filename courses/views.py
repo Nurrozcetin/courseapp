@@ -25,6 +25,27 @@ def search(request):
         'courses': q_course,
     })
 
+def create_course(request):
+    if request.method=="POST":
+        title = request.POST["title"]
+        desc = request.POST["desc"]
+        imageUrl = request.POST["imageUrl"]
+        isActive = request.POST.get("isActive", False)
+        isHome = request.POST.get("isHome", False)
+
+        if isActive == "on":
+            isActive=True
+
+        if isHome == "on":
+            isHome=True
+        
+        if title == "":
+            return render(request, "courses/create-course.html", { "error": True })
+        course = Course(title=title, desc=desc, imageUrl=imageUrl, isActive=isActive, isHome=isHome )
+        course.save()
+        return redirect("/courses")
+    return render(request, "courses/create-course.html")
+
 # def details(request, slug):
 #     course = get_object_or_404(Course, slug=slug)
 
