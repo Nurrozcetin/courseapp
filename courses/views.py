@@ -1,5 +1,7 @@
 from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
+
+from courses.forms import CourseCreateForm
 from .models import Course
 from .models import Category
 
@@ -26,25 +28,19 @@ def search(request):
     })
 
 def create_course(request):
-    if request.method=="POST":
-        title = request.POST["title"]
-        desc = request.POST["desc"]
-        imageUrl = request.POST["imageUrl"]
-        isActive = request.POST.get("isActive", False)
-        isHome = request.POST.get("isHome", False)
+    if request.method == "POST":
+        form = CourseCreateForm(request.POST)
 
-        if isActive == "on":
-            isActive=True
-
-        if isHome == "on":
-            isHome=True
-        
-        if title == "":
-            return render(request, "courses/create-course.html", { "error": True })
-        course = Course(title=title, desc=desc, imageUrl=imageUrl, isActive=isActive, isHome=isHome )
-        course.save()
-        return redirect("/courses")
-    return render(request, "courses/create-course.html")
+        if form.is_valid():
+            validCourse = Course(title=form.cleaned_data["title"], 
+                        desc=form.cleaned_data["desc"], 
+                        imageUrl=form.cleaned_data["imageUrl"], 
+                        slug=form.cleaned_data["slug"])
+            validCourse.save()
+            return redirect("/courses")
+    else:
+        form = CourseCreateForm()
+    return render(request, "courses/create-course.html", {"form":form})
 
 # def details(request, slug):
 #     course = get_object_or_404(Course, slug=slug)

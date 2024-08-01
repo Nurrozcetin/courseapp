@@ -20,28 +20,17 @@
                         Fill the blank
                     </div>
                 {% endif %}
-                <form action="{% url 'create_course' %}" method = "POST">
+                <form action="{% url 'create_course' %}" method = "POST" novalidate>
                     {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" name="title" class="form-control">
+
+                    {% for field in form  %}
+                    <div class="mb-3 {% if field.errors %} invalid {% endif %}">
+                        {% if field.errors %}<div class="alert alert-danger"> {{field.errors }} </div>{% endif %}             
+                        <label class="form-label" for="{{field.id_label}}">{{field.label}}</label>
+                        {{ field }}
                     </div>
-                    <div class="mb-3">
-                        <label for="desc" class="form-label">Description</label>
-                        <textarea name="desc" class="form-control"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="imageUrl" class="form-label">imageUrl</label>
-                        <input type="text" name="imageUrl" class="form-control">
-                    </div>
-                    <div class="form-check mb-3">
-                        <input type="checkbox" name="isActive" class="form-check-input">
-                        <label for="isActive" class="form-check-label">isActive</label>
-                    </div>
-                    <div class="form-check mb-3">
-                        <input type="checkbox" name="isHome" class="form-check-input">
-                        <label for="isHome" class="form-check-label">isHome</label>
-                    </div>
+                    {% endfor %}
+
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
