@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'courses/css/style.css' %}}">
+{% endblock css_files %}
+
+{% block title %}
+   {{ course.title }}
+{% endblock title %}
+
+{% block content %}
+    <i class="fa-solid fa-bug"></i>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-12 ">
+                <p>
+                    <strong>File upload</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

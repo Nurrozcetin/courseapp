@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from courses.forms import CourseCreateForm
 from .models import Course
 from .models import Category
+import random
+import os
 
 def index(request):
     courses = Course.objects.filter(isActive = 1, isHome=1)
@@ -65,6 +67,22 @@ def course_delete(request, id):
         return redirect("course_list")
     else:
          return render(request, "courses/course-delete.html", {"course":delete_course})
+
+def upload(request):
+    if request.method == "POST":
+        uploaded_images = request.FILES.getlist("images")
+        for file in uploaded_images:
+            handle_uploaded_files(file)
+        return render(request, "courses/success.html")
+    return render(request, "courses/upload.html")
+
+def handle_uploaded_files(file):
+    number = random.randint(1,99999)
+    filename, file_extention = os.path.splitext(file.name)
+    name = filename + "_" + str(number) + file_extention
+    with open("uploads/" + name, "wb+") as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
 
 def details(request, slug):
      course = get_object_or_404(Course, slug=slug)
