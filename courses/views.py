@@ -24,9 +24,10 @@ def getCoursesByCategory(request, slug):
     course = Course.objects.filter(categories__slug=slug, isActive=True).order_by("date")
     category = Category.objects.all()
 
-    paginator = Paginator(course, 3)
+    paginator = Paginator(course, 2)
     page = request.GET.get('page', 1)
     page_obj = paginator.page(page)
+    print(page_obj.paginator.num_pages)
 
     return render(request, 'courses/index.html', {
         'categories': category,
