@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from courses.forms import CourseCreateForm
 from .models import Course
@@ -32,23 +32,47 @@ def create_course(request):
         form = CourseCreateForm(request.POST)
 
         if form.is_valid():
-            validCourse = Course(title=form.cleaned_data["title"], 
-                        desc=form.cleaned_data["desc"], 
-                        imageUrl=form.cleaned_data["imageUrl"], 
-                        slug=form.cleaned_data["slug"])
-            validCourse.save()
+            form.save()
             return redirect("/courses")
     else:
         form = CourseCreateForm()
     return render(request, "courses/create-course.html", {"form":form})
 
-# def details(request, slug):
-#     course = get_object_or_404(Course, slug=slug)
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'courses/course-list.html', {
+        'courses': courses,
+    })
 
-#     context = {
-#         'course': course
-#     }
-#     return render(request, 'courses/details.html', context)
+def course_edit(request, id):
+    edit_course = get_object_or_404(Course, pk=id)
+
+    if request.method == "POST":
+        form = CourseCreateForm(request.POST, instance=edit_course)
+        form.save()
+        return redirect("course_list")
+    else:
+        form = CourseCreateForm(instance=edit_course)
+    
+    return render(request, "courses/edit-course.html", {"form":form})
+
+
+def course_delete(request, id):
+    delete_course = get_object_or_404(Course, pk=id)
+
+    if request.method=="POST":
+        delete_course.delete()
+        return redirect("course_list")
+    else:
+         return render(request, "courses/course-delete.html", {"course":delete_course})
+
+def details(request, slug):
+     course = get_object_or_404(Course, slug=slug)
+
+     context = {         
+        'course': course
+    }
+     return render(request, 'courses/details.html', context)
 
 def getCoursesByCategory(request, slug):
     course = Course.objects.filter(categories__slug=slug, isActive=True).order_by("date")

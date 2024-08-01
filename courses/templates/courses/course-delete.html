@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'courses/css/style.css' %}}">
+{% endblock css_files %}
+
+{% block title %}
+   {{ course.title }}
+{% endblock title %}
+
+{% block content %}
+    <i class="fa-solid fa-bug"></i>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-12 ">
+                <p>
+                    Are you sure you want to delete the course named <strong>{{ course.title }}</strong> ? 
+                    <form action=" {% url "course_delete" course.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <a href="{% url "course_list" %}" class="btn btn-success">No</a>
+                    </form>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
