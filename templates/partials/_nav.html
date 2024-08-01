@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg bg-success navbar-dark">
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
     <div class="container">
-        <a href="" class="navbar-brand">Course App</a>
+        <a href="{% url 'index' %}" class="navbar-brand">Course App</a>
         <ul class="navbar-nav me-auto">
             <li class="nav-item">
-                <a href="/index" class="nav-link">Courses</a>
+                <a href="{% url 'index' %}" class="nav-link">Courses</a>
             </li>
             <li class="nav-item">
                 <a href="/about" class="nav-link">About</a>
@@ -12,5 +12,10 @@
                 <a href="/contact" class="nav-link">Contact</a>
             </li>
         </ul>
+
+        <form class="d-flex" action="{% url 'search' %}">
+            <input class="form-control me-1" type="text" name="q" placeholder="Key Word">
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </form>
     </div>
 </nav>

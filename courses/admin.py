@@ -4,9 +4,9 @@ from .models import Category
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("title", "isActive", "slug","category_list",)
+    list_display = ("title", "isActive", "isHome" ,"slug","category_list",)
     readonly_fields = ("slug",)
-    list_editable = ("isActive",)
+    list_editable = ("isActive", "isHome",)
     search_fields = ("title",)
     prepopulated_fields = {"slug": ("title",),}
 
