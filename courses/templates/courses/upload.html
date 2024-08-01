@@ -18,8 +18,8 @@
                 <form action="{% url "upload_image" %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="input-group">
-                        <input type="file" class="form-control" name="images" multiple="true">
-                        <button class="btn btn-outline-secondary" type="submit">Upload</button>
+                        {{ form }}
+                        <button type="submit">Upload</button>
                       </div>
                 </form>
             </div>

@@ -1,6 +1,7 @@
 from django import forms
-from django.forms import SelectMultiple, TextInput, Textarea, ModelForm
+from django.forms import SelectMultiple, TextInput, Textarea, ModelForm, Form, ImageField
 from courses.models import Course
+from PIL import Image
 
 class CourseCreateForm(ModelForm):
     class Meta:
@@ -36,3 +37,5 @@ class CourseCreateForm(ModelForm):
         }
 
 
+class UploadForm(Form):
+    image = ImageField()
