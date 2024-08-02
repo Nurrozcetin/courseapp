@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'courses/css/style.css' %}}">
+{% endblock css_files %}
+
+{% block title %}
+   {{ course.title }}
+{% endblock title %}
+
+{% block content %}
+    <i class="fa-solid fa-bug"></i>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-12 ">
+                <h1>Register</h1>
+                    <hr>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                {{error}}
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="username" class="from-label">Username</label>
+                            <input type="text" name="username" id="username" class="form-control" required value= "{% if username %}username{% endif %}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="from-label">Email</label>
+                            <input type="email" name="email" id="email" class="form-control" required value= "{% if username %}username{% endif %}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="from-label">Password</label>
+                            <input type="password" name="password" id="password" class="form-control" required value= "{% if username %}username{% endif %}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="repassword" class="from-label">Re-Password</label>
+                            <input type="password" name="repassword" id="repassword" class="form-control" required value= "{% if username %}username{% endif %}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>               
+            </div>
+        </div>
+    </div>
+{% endblock content %}
