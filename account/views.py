@@ -1,32 +1,36 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
 from django.contrib import messages
+from account.forms import LoginUserForm
 
 def user_login(request):
     if request.user.is_authenticated and "next" in request.GET:
         return render(request, "account/login.html", {"error":"Unauthorized entry"})
     
     if request.method=="POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
+        form = LoginUserForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
 
-        user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            messages.add_message(request, messages.SUCCESS, "Login successfully")
-            nextUrl = request.GET.get("next", None)
-            if nextUrl is None:
-                return redirect("index")
+            if user is not None:
+                login(request, user)
+                messages.add_message(request, messages.SUCCESS, "Login successfully")
+                nextUrl = request.GET.get("next", None)
+                if nextUrl is None:
+                    return redirect("index")
+                else:
+                    return redirect(nextUrl)
             else:
-                return redirect(nextUrl)
+                return render(request, "account/login.html", {"form": form})
         else:
-            messages.add_message(request, messages.ERROR, "Invalid username or password")
-            return render(request, "account/login.html")
-        
+            return render(request, "account/login.html", {"form":form})
     else:
-        return render(request, "account/login.html")
+        form = LoginUserForm()
+        return render(request, "account/login.html", {"form":form})
 
 def user_register(request):
     if request.method=="POST":
