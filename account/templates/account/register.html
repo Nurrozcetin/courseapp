@@ -18,30 +18,9 @@
                 <h1>Register</h1>
                     <hr>
                     
-                    <form method="post">
+                    <form method="post" novalidate>
                         {% csrf_token %}
-                        {% if error %}
-                            <div class="alert alert-danger">
-                                {{error}}
-                            </div>
-                        {% endif %}
-
-                        <div class="mb-3">
-                            <label for="username" class="from-label">Username</label>
-                            <input type="text" name="username" id="username" class="form-control" required value= "{% if username %}username{% endif %}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="from-label">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" required value= "{% if username %}username{% endif %}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="from-label">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" required value= "{% if username %}username{% endif %}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="repassword" class="from-label">Re-Password</label>
-                            <input type="password" name="repassword" id="repassword" class="form-control" required value= "{% if username %}username{% endif %}">
-                        </div>
+                        {% include "partials/_form.html" %}
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>               
             </div>

@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User 
 from django.contrib import messages
-from account.forms import LoginUserForm
+from account.forms import LoginUserForm, NewUserForm
+from django.contrib.auth.forms import UserCreationForm
 
 def user_login(request):
     if request.user.is_authenticated and "next" in request.GET:
@@ -34,27 +34,20 @@ def user_login(request):
 
 def user_register(request):
     if request.method=="POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-        password = request.POST["password"]
-        repassword = request.POST["repassword"]
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            form.save()
 
-        if password != repassword:
-            return render(request, "account/register.html", {"error":"Not match password"})
-        
-        if User.objects.filter(username=username).exists():
-            return render(request, "account/register.html", {"error":"This username is used"})
-        
-        if User.objects.filter(email=email).exists():
-            return render(request, "account/register.html", {"error":"This email is used"})
-        
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            return redirect("index")
         else:
-            user = User.objects.create_user(username=username, email=email, password=password)
-            user.save()
-            return redirect("user_login")
-        
-    else:    
-        return render(request, "account/register.html")
+            return render(request, "account/register.html", {"form": form})
+    else:
+        form = NewUserForm()
+        return render(request, "account/register.html", {"form": form})
 
 
 def user_logout(request):
