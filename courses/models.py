@@ -13,7 +13,7 @@ class Category(models.Model):
 class Course(models.Model):
     title = models.CharField(max_length=50)
     desc = models.TextField()
-    imageUrl = models.CharField(max_length=50, blank=False)
+    image = models.ImageField(upload_to="images", default="")
     date = models.DateField(auto_now=True)
     isActive = models.BooleanField(default=False)
     isHome = models.BooleanField(default=False)
@@ -22,4 +22,6 @@ class Course(models.Model):
 
     def __str__(self):
         return f"{self.title}"
-    
+
+class UploadModel(models.Model):
+    image = models.ImageField(upload_to="images")

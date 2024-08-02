@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from courses.forms import CourseCreateForm, UploadForm
-from .models import Course
+from .models import Course, UploadModel
 from .models import Category
 from PIL import Image
 import random
@@ -32,7 +32,7 @@ def search(request):
 
 def create_course(request):
     if request.method == "POST":
-        form = CourseCreateForm(request.POST)
+        form = CourseCreateForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
@@ -51,7 +51,7 @@ def course_edit(request, id):
     edit_course = get_object_or_404(Course, pk=id)
 
     if request.method == "POST":
-        form = CourseCreateForm(request.POST, instance=edit_course)
+        form = CourseCreateForm(request.POST, request.FILES, instance=edit_course)
         form.save()
         return redirect("course_list")
     else:
@@ -74,20 +74,12 @@ def upload(request):
         form = UploadForm(request.POST, request.FILES)
 
         if form.is_valid():
-            uploaded_image = request.FILES["image"]
-            handle_uploaded_files(uploaded_image)
+            model = UploadModel(image = request.FILES["image"])
+            model.save()
             return render(request, "courses/success.html")
     else:
         form = UploadForm()
     return render(request, "courses/upload.html", {"form":form})
-
-def handle_uploaded_files(file):
-    number = random.randint(1,99999)
-    filename, file_extention = os.path.splitext(file.name)
-    name = filename + "_" + str(number) + file_extention
-    with open("uploads/" + name, "wb+") as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
 
 def details(request, slug):
      course = get_object_or_404(Course, slug=slug)
@@ -111,3 +103,10 @@ def getCoursesByCategory(request, slug):
         'page_obj': page_obj,
         'choosenCategory': slug
     })
+
+def details(request, slug):
+    course_details = get_object_or_404(Course, slug = slug)
+    context = {
+        'course':course_details
+    }
+    return render(request, "course/details.html", context)

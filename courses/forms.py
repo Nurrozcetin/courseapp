@@ -10,13 +10,12 @@ class CourseCreateForm(ModelForm):
         labels = {
             "title": "Course Title",
             "desc": "Course Description",
-            "imageUrl": "Course Image",
+            "image": "Course Image",
             "slug": "Course Slug"
         }
         widgets = {
             "title": TextInput(attrs={"class": "form-control"}),
             "desc": Textarea(attrs={"class": "form-control"}),
-            "imageUrl": TextInput(attrs={"class": "form-control"}),
             "slug": TextInput(attrs={"class": "form-control"}),
             "categories": SelectMultiple(attrs={"class": "form-control"})
         }
@@ -28,8 +27,8 @@ class CourseCreateForm(ModelForm):
             "desc": {
                 "required":"Description cannot be left blank"
             }, 
-            "imageUrl": {
-                "required":"Image url cannot be left blank"
+            "image": {
+                "required":"Image cannot be left blank"
             }, 
             "slug": {
                 "required":"Slug cannot be left blank"

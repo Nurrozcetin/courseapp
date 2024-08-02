@@ -19,6 +19,7 @@
                     Are you sure you want to delete the course named <strong>{{ course.title }}</strong> ? 
                     <form action=" {% url "course_delete" course.id %}" method="POST">
                         {% csrf_token %}
+
                         <button type="submit" class="btn btn-danger">Yes</button>
                         <a href="{% url "course_list" %}" class="btn btn-success">No</a>
                     </form>
