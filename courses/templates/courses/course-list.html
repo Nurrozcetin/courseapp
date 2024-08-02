@@ -13,33 +13,29 @@
 {% block content %}
     <i class="fa-solid fa-bug"></i>
     <div class="container mt-3">
-        <div class="row">
+        <div class="row g-0 d-flex align-items-center">
             <div class="col-12 ">
-                <table class="table table-sm table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width:150px;"></th>
-                            <th>Title</th>
-                            <th>Slug</th>
-                            <th style="width:70px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for course in courses%}
-                            <tr>
-                                <td>
-                                    <img src="{{ course.image.url }}" class="img-fluid" >
-                                </td>
-                                <td>{{ course.title }}</td>
-                                <td>{{ course.slug }}</td>
-                                <td>
-                                    <a href="{% url "course_edit" course.id %}" class="btn btn-warning btn-sm">Update</a>
-                                    <a href="{% url "course_delete" course.id %}" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {% for course in courses%}
+                    <div class="card" style="width": "200px";>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="{{ course.image.url }}" class="img-fluid" >
+                            </div>
+
+                            <div class="col-md-6 d-flex flex-column justify-content-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ course.title }}</h5>
+                                    <p class="card-text">{{ course.slug }}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <a href="{% url "course_edit" course.id %}" class="btn btn-warning btn-sm">Update</a>
+                                <a href="{% url "course_delete" course.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
