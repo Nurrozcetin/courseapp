@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
-from account.forms import LoginUserForm, NewUserForm
-from django.contrib.auth.forms import UserCreationForm
+from account.forms import LoginUserForm, NewUserForm, UserPasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 
 def user_login(request):
     if request.user.is_authenticated and "next" in request.GET:
@@ -48,6 +49,20 @@ def user_register(request):
     else:
         form = NewUserForm()
         return render(request, "account/register.html", {"form": form})
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        form = UserPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "new password")
+            return redirect("index")
+        else:
+            return render(request, "account/change-password.html", {"form": form} )
+    form = UserPasswordChangeForm(request.user)
+    return render(request, "account/change-password.html", {"form": form} )
 
 
 def user_logout(request):

@@ -2,8 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.forms import ValidationError, widgets
 from django.contrib.auth.models import User 
-from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 
 class LoginUserForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
@@ -44,3 +43,11 @@ class NewUserForm(UserCreationForm):
     
     def clean_password2(self):
         super().clean_password2()
+
+                
+class UserPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["new_password1"].widget = widgets.PasswordInput(attrs={"class":"form-control"})
+        self.fields["new_password2"].widget = widgets.PasswordInput(attrs={"class":"form-control"})
+        self.fields["old_password"].widget = widgets.PasswordInput(attrs={"class":"form-control"})
