@@ -1,0 +1,15 @@
+.errorlist {
+    list-style-type: none;
+    color: red;
+    margin: 0;
+    padding: 0;
+}
+
+.invalid input, .invalid textarea {
+    border-color: #dc3545;
+}
+
+.col-md-4 {
+    width: 120px;
+    height: 120px;
+}
