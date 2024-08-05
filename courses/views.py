@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from courses.forms import CourseCreateForm, UploadForm
-from .models import Course, UploadModel
+from .models import Course, Slider, UploadModel
 from .models import Category
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -10,10 +10,12 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 def index(request):
     courses = Course.objects.filter(isActive = 1, isHome=1)
     categories = Category.objects.all()
+    sliders = Slider.objects.filter(is_active=True)
 
     return render(request, 'courses/index.html', {
         'categories': categories,
-        'courses': courses
+        'courses': courses,
+        'sliders': sliders
     })
 
 def search(request):
